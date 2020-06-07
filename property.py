@@ -29,7 +29,7 @@ class Vesh(Property, ABC):
         :param person:
         :return:
         '''
-        print("Введите дату приобретения (дата государственной регистрации перехода права собственности (выписка из ЕГРН)): ")
+        print("Введите дату приобретения имущества (дата государственной регистрации перехода права собственности (выписка из ЕГРН)): ")
         date = input()
         date_of_ownership = fiz_l.to_date(date)
         date_of_ownership = fiz_l.datetime.date(date_of_ownership[0], date_of_ownership[1], date_of_ownership[2])
@@ -67,10 +67,10 @@ class Zhiloe_pomeshenie(Nedvizhimost):
         self.date_of_ownership = None
 
     def __str__(self):
-        return f'Жилое помещение; адрес: {self.address}'
+        return f'Жилое помещение - адрес: {self.address}'
 
     def __repr__(self):
-        return 'Жилое помещение'
+        return f'Жилое помещение - адрес: {self.address}'
 
 # проверить порядок наследования
 class Dvizhimie_veshi(Vesh, ABC):

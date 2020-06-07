@@ -79,11 +79,8 @@ if __name__ == "__main__":
     dom_1 = property.Zhiloe_pomeshenie()
     dom_1.add_sobstvennik(person_1)
 
-
-    print(person_1.property)
+    print(f'Список имущества {person_1}: {person_1.property}')
     print(person_1.property[0])
-    print(person_1.property[0].owner)
-    print(person_1.property[0].sobstvennik)
-    print(person_1.property[0].definition)
-    print(person_1.property[0].dates_of_change_owner[0])
-    print(dom_1.sobstvennik)
+    print(f'Список собственников {person_1.property[0]}: {person_1.property[0].sobstvennik}')
+    print(f'Дата получения права собственности на {person_1.property[0]}: {person_1.property[0].dates_of_change_owner[-1]}')
+    print(f'Список собственников {dom_1}: {dom_1.sobstvennik}')
