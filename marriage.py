@@ -1,5 +1,6 @@
 import sys
 import fiz_l
+import property
 
 def marriage_func(person_1, person_2): # на вход подаются физ.лица (class Fiz_l)
     # общее правило
@@ -86,3 +87,17 @@ def marriage_age_check(person, place_of_marriage):
 def region_law_marriage_age(region):
     # TODO list of region_marriage_ages
     ...
+
+
+def marriage_property_check(date_of_marriage, date_of_ownership):
+    '''
+    Проверка на приобретение имущества в браке
+    :param date_of_marriage:
+    :param date_of_ownership:
+    :return:
+    '''
+    # допустим, что никто пока не разводился
+    if date_of_ownership >= date_of_marriage: #если имущество приобретено после заключения брака
+        return True # имущество приобретено в браке
+    else:
+        return False # имущество приобретено не в браке

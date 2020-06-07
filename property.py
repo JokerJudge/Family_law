@@ -1,13 +1,13 @@
-#from fiz_l import to_date, datetime
 from abc import ABC, abstractmethod
 import fiz_l
+import marriage
 
 #ABC - когда запрещено создавать экземпляр класса - нужно создавать наследника
 
 class Property(ABC):
     def __init__(self):
         self.definition = 'Имуществом признаются материальные и нематериальные объекты, которые могут быть предметами владения, пользования или распоряжения'
-        self.owner = None # правообладатель
+        self.owner = None # владелец
         self.price = None
         self.description = None
         self.list_of_owners = []
@@ -24,14 +24,30 @@ class Vesh(Property, ABC):
         self.owner = None
 
     def add_sobstvennik(self, person):
-        self.sobstvennik = person
+        '''
+        Приобретение имущества
+        :param person:
+        :return:
+        '''
         print("Введите дату приобретения (дата государственной регистрации перехода права собственности (выписка из ЕГРН)): ")
         date = input()
         date_of_ownership = fiz_l.to_date(date)
         date_of_ownership = fiz_l.datetime.date(date_of_ownership[0], date_of_ownership[1], date_of_ownership[2])
         self.dates_of_change_owner.append(date_of_ownership)
-        self.list_of_owners.append(person)
-        person.property.append(self)
+        # проверка на наличие брака
+        if not marriage.marriage_property_check(person.married['date_of_marriage'], date_of_ownership): # если нет
+            self.list_of_owners.append(person)
+            person.property.append(self)
+            self.sobstvennik = person
+            self.owner = person
+        # если приобретено в браке
+        else:
+            self.list_of_owners.append((person, person.married['married_to']))
+        # TODO нужна метка о виде собственности (совместная)
+            person.property.append(self)
+            person.married['married_to'].property.append(self)
+            self.sobstvennik = (person, person.married['married_to'])
+            self.owner = (person, person.married['married_to'])
 
 # проверить порядок наследования
 class Nedvizhimost(Vesh, ABC):
@@ -52,6 +68,9 @@ class Zhiloe_pomeshenie(Nedvizhimost):
 
     def __str__(self):
         return f'Жилое помещение; адрес: {self.address}'
+
+    def __repr__(self):
+        return 'Жилое помещение'
 
 # проверить порядок наследования
 class Dvizhimie_veshi(Vesh, ABC):
