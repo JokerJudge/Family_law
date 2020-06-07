@@ -1,5 +1,5 @@
 import sys
-from fiz_l import *
+import fiz_l
 
 def marriage_func(person_1, person_2): # на вход подаются физ.лица (class Fiz_l)
     # общее правило
@@ -50,8 +50,8 @@ def marriage_func(person_1, person_2): # на вход подаются физ.�
             print("Введите дату заключения брака: ")
             #TODO не раньше достижения младшим супругом  брачного возраста
             date = input()
-            date_of_marriage = Fiz_l.to_date(date)
-            date_of_marriage = datetime.date(date_of_marriage[0], date_of_marriage[1], date_of_marriage[2])
+            date_of_marriage = fiz_l.to_date(date)
+            date_of_marriage = fiz_l.datetime.date(date_of_marriage[0], date_of_marriage[1], date_of_marriage[2])
             person_1.status['married'] = True
             person_1.married['married_to'] = person_2
             person_1.married['date_of_marriage'] = date_of_marriage

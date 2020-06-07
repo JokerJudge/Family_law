@@ -1,6 +1,6 @@
 # попытка реализовать главу 3 Семейного кодекса
 import datetime
-from marriage import *
+import marriage
 import property
 
 class Fiz_l:
@@ -27,7 +27,8 @@ class Fiz_l:
         self.fathername = fathername
         self.relatives = []
         self.married = {'married_to': None,
-                        'date_of marriage': None}
+                        'date_of_marriage': None}
+        self.property = []
 
     def __str__(self):
         return f'{self.surname} {self.name} {self.fathername}'
@@ -41,16 +42,29 @@ class Fiz_l:
             l.append(i)
         return l[0], l[1], l[2]
 
+def to_date(date):
+    l = []
+    dt = date.split('.')
+    for i in dt:
+        i = int(i)
+        l.append(i)
+    return l[0], l[1], l[2]
 
 
 class Actions:
     ...
 
 if __name__ == "__main__":
-    human_1 = Fiz_l(date_of_birth='1991.8.6', sex='male', surname='Коваленко', name='Евгений', fathername="Николаевич")
-    human_2 = Fiz_l(date_of_birth='1990.10.28', sex='female', surname='Дуркина', name='Мария', fathername="Юрьевна")
+    person_1 = Fiz_l(date_of_birth='1991.8.6', sex='male', surname='Коваленко', name='Евгений', fathername="Николаевич")
+    person_2 = Fiz_l(date_of_birth='1990.10.28', sex='female', surname='Дуркина', name='Мария', fathername="Юрьевна")
 
-    marriage_func(human_1, human_2)
-    print(f'Брак с: {human_2.married["married_to"]} \n'
-          f'Дата заключения брака: {human_2.married["date_of_marriage"]}')
-    #marriage(human_1, human_2)
+    #marriage.marriage_func(person_1, person_2)
+    #print(f'Брак с: {person_2.married["married_to"]} \n'
+    #      f'Дата заключения брака: {person_2.married["date_of_marriage"]}')
+
+    dom_1 = property.Zhiloe_pomeshenie()
+    dom_1.add_sobstvennik(person_1)
+    print(person_1.property[0])
+    print(person_1.property[0].sobstvennik)
+    print(person_1.property[0].definition)
+    print(person_1.property[0].dates_of_change_owner[0])
