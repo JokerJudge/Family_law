@@ -1,6 +1,6 @@
 # попытка реализовать главу 3 Семейного кодекса
 import datetime
-from marriage import *
+import marriage
 import property
 
 class Fiz_l:
@@ -27,9 +27,14 @@ class Fiz_l:
         self.fathername = fathername
         self.relatives = []
         self.married = {'married_to': None,
-                        'date_of marriage': None}
+                        'date_of_marriage': None,
+                        'period_of_marriage': None} # не реализован
+        self.property = []
 
     def __str__(self):
+        return f'{self.surname} {self.name} {self.fathername}'
+
+    def __repr__(self):
         return f'{self.surname} {self.name} {self.fathername}'
 
     @classmethod
@@ -41,16 +46,41 @@ class Fiz_l:
             l.append(i)
         return l[0], l[1], l[2]
 
+def to_date(date):
+    l = []
+    dt = date.split('.')
+    for i in dt:
+        i = int(i)
+        l.append(i)
+    return l[0], l[1], l[2]
 
 
 class Actions:
     ...
 
 if __name__ == "__main__":
-    human_1 = Fiz_l(date_of_birth='1991.8.6', sex='male', surname='Коваленко', name='Евгений', fathername="Николаевич")
-    human_2 = Fiz_l(date_of_birth='1990.10.28', sex='female', surname='Дуркина', name='Мария', fathername="Юрьевна")
+    person_1 = Fiz_l(date_of_birth='1991.8.6', sex='male', surname='Коваленко', name='Евгений', fathername="Николаевич")
+    person_2 = Fiz_l(date_of_birth='1990.10.28', sex='female', surname='Дуркина', name='Мария', fathername="Юрьевна")
 
-    marriage_func(human_1, human_2)
-    print(f'Брак с: {human_2.married["married_to"]} \n'
-          f'Дата заключения брака: {human_2.married["date_of_marriage"]}')
-    #marriage(human_1, human_2)
+    # marriage.marriage_func(person_1, person_2)
+    # print(f'Брак с: {person_2.married["married_to"]} \n'
+    #       f'Дата заключения брака: {person_2.married["date_of_marriage"]}')
+
+    #temp
+    person_1.status['married'] = True
+    person_1.married['married_to'] = person_2
+    temp_dt = to_date('2015.10.1')
+    temp_dt = datetime.date(temp_dt[0], temp_dt[1], temp_dt[2])
+    person_1.married['date_of_marriage'] = temp_dt
+    person_2.status['married'] = True
+    person_2.married['married_to'] = person_1
+    person_2.married['date_of_marriage'] = person_1.married['date_of_marriage']
+
+    dom_1 = property.Zhiloe_pomeshenie()
+    dom_1.add_sobstvennik(person_1)
+
+    print(f'Список имущества {person_1}: {person_1.property}')
+    print(person_1.property[0])
+    print(f'Список собственников {person_1.property[0]}: {person_1.property[0].sobstvennik}')
+    print(f'Дата получения права собственности на {person_1.property[0]}: {person_1.property[0].dates_of_change_owner[-1]}')
+    print(f'Список собственников {dom_1}: {dom_1.sobstvennik}')

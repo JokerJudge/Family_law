@@ -1,5 +1,6 @@
 import sys
-from fiz_l import *
+import fiz_l
+import property
 
 def marriage_func(person_1, person_2): # на вход подаются физ.лица (class Fiz_l)
     # общее правило
@@ -50,8 +51,8 @@ def marriage_func(person_1, person_2): # на вход подаются физ.�
             print("Введите дату заключения брака: ")
             #TODO не раньше достижения младшим супругом  брачного возраста
             date = input()
-            date_of_marriage = Fiz_l.to_date(date)
-            date_of_marriage = datetime.date(date_of_marriage[0], date_of_marriage[1], date_of_marriage[2])
+            date_of_marriage = fiz_l.to_date(date)
+            date_of_marriage = fiz_l.datetime.date(date_of_marriage[0], date_of_marriage[1], date_of_marriage[2])
             person_1.status['married'] = True
             person_1.married['married_to'] = person_2
             person_1.married['date_of_marriage'] = date_of_marriage
@@ -86,3 +87,17 @@ def marriage_age_check(person, place_of_marriage):
 def region_law_marriage_age(region):
     # TODO list of region_marriage_ages
     ...
+
+
+def marriage_property_check(date_of_marriage, date_of_ownership):
+    '''
+    Проверка на приобретение имущества в браке
+    :param date_of_marriage:
+    :param date_of_ownership:
+    :return:
+    '''
+    # допустим, что никто пока не разводился
+    if date_of_ownership >= date_of_marriage: #если имущество приобретено после заключения брака
+        return True # имущество приобретено в браке
+    else:
+        return False # имущество приобретено не в браке
