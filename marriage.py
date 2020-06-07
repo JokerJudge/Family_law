@@ -1,49 +1,12 @@
-# попытка реализовать главу 3 Семейного кодекса
-import datetime
+import sys
+from fiz_l import *
 
-class Fiz_l:
-    def __init__(self, date_of_birth, sex, surname: str, name: str, fathername: str):
-        self.status = {'alive': True,
-                       'married': False,
-                       'deesposobnost': True}
-        dt = Fiz_l.to_date(date_of_birth)
-        dt = datetime.date(dt[0], dt[1], dt[2])
-        self.date_of_birth = dt
-        # считаем разницу в годах
-        today = datetime.date.today()
-        temp_date = self.date_of_birth.replace(today.year) # timedelta работает с днями, поэтому вводим врем. переменную
-        if temp_date > today: # если ДР в этом году еще не наступил
-            self.age = datetime.date.today().year - self.date_of_birth.year - 1
-        else: # если ДР уже наступил
-            self.age = datetime.date.today().year - self.date_of_birth.year
-        if sex == 'male' or sex == 'female':
-            self.sex = sex
-        else:
-            raise ValueError("Мужчина - 'male', Женщина - 'female'")
-        self.surname = surname
-        self.name = name
-        self.fathername = fathername
-        self.relatives = []
-        self.married = None
-
-    def __str__(self):
-        return f'{self.surname} {self.name} {self.fathername}'
-
-    @classmethod
-    def to_date(self, date_of_birth):
-        l = []
-        dt = date_of_birth.split('.')
-        for i in dt:
-            i = int(i)
-            l.append(i)
-        return l[0], l[1], l[2]
-
-
-
-def marriage(person_1, person_2): # на вход подаются физ.лица (class Fiz_l)
+def marriage_func(person_1, person_2): # на вход подаются физ.лица (class Fiz_l)
     # общее правило
-    if not isinstance(person_1, Fiz_l) and not isinstance(person_2, Fiz_l):
-        raise TypeError("Аргументы должны быть из class Fiz_l")
+    # TODO isinstance перестал работать после разделения программы на несколько модулей
+    # if not (isinstance(person_1, Fiz_l) and isinstance(person_2, Fiz_l)):
+    #     raise TypeError("Аргументы должны быть из class Fiz_l")
+
     # проверка на соответствие обязательным требованиям каждого отдельного лица
     place_of_marriage = 'Saint-Petersburg' # здесь нужен input по субъекту РФ
 
@@ -69,7 +32,7 @@ def marriage(person_1, person_2): # на вход подаются физ.лиц
     # проверка на однополый брак
     if not (person_1.sex == 'male' and person_2.sex == 'female' or person_1.sex == 'female' and person_2.sex == 'male'):
         law_link = 'ч.1 ст. 12 Семейного кодекса РФ'
-        print(f"Брак между лицами одного пола недопустим\n"
+        raise ValueError(f"Брак между лицами одного пола недопустим\n"
               f"Ссылка на норму: {law_link}")
 
     # проверка на родстввенные связи
@@ -84,10 +47,17 @@ def marriage(person_1, person_2): # на вход подаются физ.лиц
         print("2 - НЕТ")
         choose = input("Введите ответ (1 или 2): ")
         if choose == '1':
+            print("Введите дату заключения брака: ")
+            #TODO не раньше достижения младшим супругом  брачного возраста
+            date = input()
+            date_of_marriage = Fiz_l.to_date(date)
+            date_of_marriage = datetime.date(date_of_marriage[0], date_of_marriage[1], date_of_marriage[2])
             person_1.status['married'] = True
-            person_1.married = person_2
+            person_1.married['married_to'] = person_2
+            person_1.married['date_of_marriage'] = date_of_marriage
             person_2.status['married'] = True
-            person_2.married = person_1
+            person_2.married['married_to'] = person_1
+            person_2.married['date_of_marriage'] = date_of_marriage
             print(f"Брак между {person_1} и {person_2} заключен")
             break
         elif choose == '2':
@@ -116,20 +86,3 @@ def marriage_age_check(person, place_of_marriage):
 def region_law_marriage_age(region):
     # TODO list of region_marriage_ages
     ...
-
-class Actions:
-    ...
-
-if __name__ == "__main__":
-    human_1 = Fiz_l(date_of_birth='1991.8.6', sex='female', surname='Коваленко', name='Евгений', fathername="Николаевич")
-    human_2 = Fiz_l(date_of_birth='1990.10.28', sex='male', surname='Дуркина', name='Мария', fathername="Юрьевна")
-    # print(human_1.date_of_birth)
-    # print(human_1.age)
-    # print(human_1.sex)
-    # print('------------')
-    # print(human_2.date_of_birth)
-    # print(human_2.age)
-    # print(human_2.sex)
-    marriage(human_1, human_2)
-    print(f'Брак с: {human_2.married}')
-    #marriage(human_1, human_2)
