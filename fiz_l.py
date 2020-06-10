@@ -65,8 +65,6 @@ if __name__ == "__main__":
     #temp
     person_1.status["marriage"]['married'] = True
     person_1.status["marriage"]['married_to'] = person_2
-    #temp_dt = to_date('2015.10.1')
-    #temp_dt = datetime.date(temp_dt[0], temp_dt[1], temp_dt[2])
     person_1.status["marriage"]['date_of_marriage'] = to_date('2015.10.1')
     person_2.status["marriage"]['married'] = True
     person_2.status["marriage"]['married_to'] = person_1

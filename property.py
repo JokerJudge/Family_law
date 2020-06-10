@@ -32,22 +32,22 @@ class Vesh(Property, ABC):
         print("Введите дату приобретения имущества (дата государственной регистрации перехода права собственности (выписка из ЕГРН)): ")
         date = input()
         date_of_ownership = fiz_l.to_date(date)
-        date_of_ownership = fiz_l.datetime.date(date_of_ownership[0], date_of_ownership[1], date_of_ownership[2])
+        #date_of_ownership = fiz_l.datetime.date(date_of_ownership[0], date_of_ownership[1], date_of_ownership[2])
         self.dates_of_change_owner.append(date_of_ownership)
         # проверка на наличие брака
-        if not marriage.marriage_property_check(person.married['date_of_marriage'], date_of_ownership): # если нет
+        if not marriage.marriage_property_check(person.status['marriage']['date_of_marriage'], date_of_ownership): # если нет
             self.list_of_owners.append(person)
             person.property.append(self)
             self.sobstvennik = person
             self.owner = person
         # если приобретено в браке
         else:
-            self.list_of_owners.append((person, person.married['married_to']))
+            self.list_of_owners.append((person, person.status['marriage']['married_to']))
         # TODO нужна метка о виде собственности (совместная)
             person.property.append(self)
-            person.married['married_to'].property.append(self)
-            self.sobstvennik = (person, person.married['married_to'])
-            self.owner = (person, person.married['married_to'])
+            person.status['marriage']['married_to'].property.append(self)
+            self.sobstvennik = (person, person.status['marriage']['married_to'])
+            self.owner = (person, person.status['marriage']['married_to'])
 
 # проверить порядок наследования
 class Nedvizhimost(Vesh, ABC):
