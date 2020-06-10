@@ -25,7 +25,7 @@ class Vesh(Property, ABC):
 
     def add_sobstvennik(self, person):
         '''
-        Приобретение имущества
+        Добавление собственника
         :param person:
         :return:
         '''

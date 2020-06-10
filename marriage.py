@@ -15,12 +15,12 @@ def marriage_func(person_1, person_2): # на вход подаются физ.�
     person = person_1
     for i in range(2):
         # проверка на статус
-        if person.status['alive'] == False:
+        if person.status['live']['alive'] == False:
             raise ValueError(f"{person} умер(ла). С мертвецом в браки не вступают")
-        if person.status['married'] == True:
+        if person.status['marriage']['married'] == True:
             law_link = 'абз. 2 ст. 15 Семейного кодекса РФ'
             raise ValueError(f"{person} состоит в браке. Второй брак недопустим\n Cсылка на норму: {law_link}")
-        if person.status['deesposobnost'] == False:
+        if person.status['capacity']['ogranicheniya'] == True:
             law_link = 'абз. 5 ст. 15 Семейного кодекса РФ'
             raise ValueError(f"{person} признан(а) недееспособным(ой). Брак с указанным лицом невозможен\n Cсылка на норму: {law_link}")
         temp = marriage_age_check(person, place_of_marriage) # проверка на брачный возраст
@@ -52,13 +52,12 @@ def marriage_func(person_1, person_2): # на вход подаются физ.�
             #TODO не раньше достижения младшим супругом  брачного возраста
             date = input()
             date_of_marriage = fiz_l.to_date(date)
-            date_of_marriage = fiz_l.datetime.date(date_of_marriage[0], date_of_marriage[1], date_of_marriage[2])
-            person_1.status['married'] = True
-            person_1.married['married_to'] = person_2
-            person_1.married['date_of_marriage'] = date_of_marriage
-            person_2.status['married'] = True
-            person_2.married['married_to'] = person_1
-            person_2.married['date_of_marriage'] = date_of_marriage
+            person_1.status['marriage']['married'] = True
+            person_1.status['marriage']['married_to'] = person_2
+            person_1.status['marriage']['date_of_marriage'] = date_of_marriage
+            person_2.status['marriage']['married'] = True
+            person_2.status['marriage']['married_to'] = person_1
+            person_2.status['marriage']['date_of_marriage'] = date_of_marriage
             print(f"Брак между {person_1} и {person_2} заключен")
             break
         elif choose == '2':
